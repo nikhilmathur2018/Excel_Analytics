@@ -6,16 +6,16 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 
 // Import your route files
-const authRoutes = require('./routes/auth'); // Assuming this is authRoutes.js
+const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/uploadRoutes');
 const analysisRoutes = require('./routes/analysisRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 // Import your custom error handling middleware
-const { errorHandler } = require('./middleware/errorMiddleware'); // You will need to create this file
+const { errorHandler } = require('./middleware/errorMiddleware');
 
-console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY); // Keep for debugging, remove later
+console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY);
 
 // Connect to MongoDB
 connectDB();
@@ -23,14 +23,15 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(express.json()); // Enable body parsing for JSON
-app.use(express.urlencoded({ extended: false })); // Enable body parsing for URL-encoded data (if needed)
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // CORS Configuration - CRUCIAL FIX FOR CORS ERRORS
+// IMPORTANT: Use your correct Netlify domain
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://effulgent-raindrop-606589.netlify.app'], // Add your Netlify domain here
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
-    credentials: true // Allow cookies and authorization headers to be sent
+    origin: ['http://localhost:3000', 'https://comforting-maamoul-0baee4.netlify.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    credentials: true
 }));
 
 // Route Mounts
@@ -45,7 +46,7 @@ app.get('/', (req, res) => {
     res.send('API is running');
 });
 
-// Error handling middleware - CRUCIAL FIX FOR UNHANDLED ERRORS
+// Error handling middleware
 // This must be placed AFTER all your routes
 app.use(errorHandler);
 
